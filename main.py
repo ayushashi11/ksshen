@@ -20,7 +20,7 @@ sm = SettingsManager()
 LINES_PER_PAGE = 10
 
 def sort(arr: List[Tuple[str, str]], query: str) -> List[Tuple[str, str]]:
-    arr.sort(key=lambda x: ratio(x[1], query))
+    arr.sort(key=lambda x: ratio(x[1], query), reverse=True)
     return arr
 
 @bot.event
