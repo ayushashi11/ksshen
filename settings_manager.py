@@ -14,7 +14,7 @@ class Settings:
 
     def get_names(self) -> Union[List[Tuple[str, str]], None]:
         try:
-            return self._js["names"].values()
+            return list(self._js["names"].items())
         except (IndexError, KeyError):
             return None
 
@@ -23,6 +23,13 @@ class Settings:
             return self._js["locs"][id_]
         except (IndexError, KeyError):
             return None
+    
+    def set_location(self, id_: str, url: str) -> bool:
+        try:
+            self._js["locs"][id_] = url
+            return False
+        except (IndexError, KeyError):
+            return True
 
     def get(self) -> dict:
         ret = self._js 
