@@ -24,6 +24,14 @@ class Settings:
         except (IndexError, KeyError):
             return None
     
+    def remove(self, id_: str) -> bool:
+        try:
+            self._js["names"].pop(id_)
+            self._js["locs"].pop(id_)
+            return True
+        except KeyError:
+            return False
+    
     def set_location(self, id_: str, url: str) -> bool:
         try:
             self._js["locs"][id_] = url

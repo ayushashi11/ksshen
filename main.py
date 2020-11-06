@@ -3,6 +3,7 @@ from os import name
 from typing import List, Tuple
 import discord
 from datetime import datetime
+from discord.enums import ActivityType
 from fuzzywuzzy.fuzz import ratio
 import hashlib
 from discord.activity import Activity
@@ -24,7 +25,7 @@ def sort(arr: List[Tuple[str, str]], query: str) -> List[Tuple[str, str]]:
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=Activity(name="you | ks!help"))
+    await bot.change_presence(activity=Activity(name="you | ks!help", type=ActivityType.listening))
 
 @bot.command()
 async def add(ctx: Context, name: str):
@@ -37,6 +38,17 @@ async def add(ctx: Context, name: str):
         await ctx.send(embed=em)
         with sm as s: 
             s.add(name, id_, a.url)
+
+@bot.command()
+async def remove(ctx: Context, id_: str):
+    with sm as s: 
+        stat = s.remove(id_)
+        em = None
+        if stat:
+            em = Embed(title="Removed", description="map id: "+id_)
+        else:
+            em = Embed(title="Not Found", description=f"map id: {id_} wasn't found")
+        await ctx.send(embed=em)
 
 @bot.command()
 async def search(ctx: Context, query: str, page=1):
